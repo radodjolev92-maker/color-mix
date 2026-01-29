@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cool Dark Loader</title>
+
+  <style>
+    :root {
+      --bg: #0b0b0f;
+      --card: #141420;
+      --accent: #6cf2c2;
+      --text: #e6e6eb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, #141420, var(--bg));
+      font-family: system-ui, sans-serif;
+      color: var(--text);
+    }
+
+    .container {
+      background: var(--card);
+      padding: 2rem 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      text-align: center;
+      width: min(90vw, 420px);
+    }
+
+    button {
+      background: linear-gradient(135deg, var(--accent), #4aa3ff);
+      border: none;
+      color: #000;
+      font-weight: 700;
+      padding: 0.9rem 1.6rem;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(108,242,194,0.35);
+      transition: transform 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .stage {
+      margin-top: 2rem;
+      min-height: 260px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .circle {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      position: absolute;
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .red {
+      background: #ff3b3b;
+      left: 50%;
+      top: 50%;
+      transform: translate(-120px, -50%) scale(0.6);
+    }
+
+    .yellow {
+      background: #ffd93b;
+      left: 50%;
+      top: 50%;
+      transform: translate(20px, -50%) scale(0.6);
+    }
+
+    .circle.show {
+      opacity: 1;
+      transform: translate(var(--tx), -50%) scale(1);
+    }
+
+    .red.show {
+      transform: translate(-120px, -50%) scale(1);
+    }
+
+    .yellow.show {
+      transform: translate(20px, -50%) scale(1);
+    }
+
+    .gif {
+      max-width: 260px;
+      display: none;
+    }
+
+    .gif.show {
+      display: block;
+    }
+
+    .loading {
+      margin-top: 0.8rem;
+      letter-spacing: 0.2em;
+      opacity: 0.85;
+      display: none;
+    }
+
+    .loading.show {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <button id="startBtn">Start</button>
+
+    <div class="stage">
+      <div class="circle red" id="redCircle"></div>
+      <div class="circle yellow" id="yellowCircle"></div>
+
+      <div>
+        <img src="gif1.gif" id="gif1" class="gif">
+        <img src="gif2.gif" id="gif2" class="gif">
+        <img src="gif3.gif" id="gif3" class="gif">
+        <div id="loadingText" class="loading">LOADING</div>
+      </div>
+    </div>
+    <div style="margin-top: 14px; font-size: 0.85rem; opacity: 0.6; text-align: center;">
+        Rado was here
+      </div>
+      
+
+    <audio id="audio" src="song.mp3"></audio>
+  </div>
+
+  <script>
+    const btn = document.getElementById("startBtn");
+    const audio = document.getElementById("audio");
+
+    const red = document.getElementById("redCircle");
+    const yellow = document.getElementById("yellowCircle");
+
+    const gif1 = document.getElementById("gif1");
+    const gif2 = document.getElementById("gif2");
+    const gif3 = document.getElementById("gif3");
+    const loading = document.getElementById("loadingText");
+
+    btn.addEventListener("click", () => {
+      btn.disabled = true;
+
+      red.classList.remove("show");
+      yellow.classList.remove("show");
+      gif1.classList.remove("show");
+      gif2.classList.remove("show");
+      gif3.classList.remove("show");
+      loading.classList.remove("show");
+
+      void red.offsetWidth;
+
+      audio.currentTime = 0;
+      audio.play();
+
+      red.classList.add("show");
+
+      setTimeout(() => {
+        yellow.classList.add("show");
+      }, 1700);
+
+      setTimeout(() => {
+        red.classList.remove("show");
+        yellow.classList.remove("show");
+        gif1.classList.add("show");
+        loading.classList.add("show");
+      }, 3700);
+
+      setTimeout(() => {
+        gif1.classList.remove("show");
+        loading.classList.remove("show");
+        gif2.classList.add("show");
+      }, 8200);
+
+      setTimeout(() => {
+        gif2.classList.remove("show");
+        gif3.classList.add("show");
+        btn.disabled = false;
+      }, 9200);
+      
+      audio.addEventListener("ended", function closePage() {
+        audio.removeEventListener("ended", closePage);
+        window.close();
+      });
+    });
+  </script>
+</body>
+</html>
